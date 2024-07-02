@@ -24,7 +24,7 @@ const ExpertServiceList = () => {
             <ul>
                 {expertServices.map(es => (
                     <li key={`${es.expertId}-${es.serviceId}`}>
-                        {es.serviceName} - {es.expertName}
+                        {es.expertId} - {es.serviceId}
                         <button onClick={() => handleDelete(es.expertId, es.serviceId)}>Delete</button>
                     </li>
                 ))}

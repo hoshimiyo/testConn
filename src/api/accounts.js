@@ -1,20 +1,47 @@
-import axios from 'axios';
+// src/services/apiService.js
 
-const API_URL = 'http://localhost:5000/api/account';
+const BASE_URL = 'https://localhost:7126/api/account';
 
-export const register = async (registerDto) => {
-    const response = await axios.post(`${API_URL}/register`, registerDto);
-    return response.data;
-};
-
-export const login = async (loginDto) => {
-    const response = await axios.post(`${API_URL}/login`, loginDto);
-    return response.data;
-};
-
-export const changeRole = async (id, role) => {
-    const response = await axios.put(`${API_URL}/${id}/change-role`, null, {
-        params: { role }
+const register = async (registerDto) => {
+    const response = await fetch(`${BASE_URL}/register`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(registerDto),
     });
-    return response.data;
+    return await response.json();
 };
+
+const login = async (loginDto) => {
+    const response = await fetch(`${BASE_URL}/login`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(loginDto),
+    });
+    return await response.json();
+};
+
+const changeRole = async (id, role) => {
+    const response = await fetch(`${BASE_URL}/${id}/change-role?role=${role}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    return await response.json();
+};
+
+const deleteUser = async (id) => {
+    const response = await fetch(`${BASE_URL}/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    return await response.json();
+};
+
+export { register, login, changeRole, deleteUser };

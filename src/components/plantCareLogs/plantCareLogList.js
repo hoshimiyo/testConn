@@ -23,8 +23,8 @@ const PlantCareLogList = () => {
             <h1>Plant Care Logs</h1>
             <ul>
                 {plantCareLogs.map(log => (
-                    <li key={log.id}>
-                        {log.description} - {log.date}
+                    <li key={log.appointmentId}>
+                        {log.expertId} - {log.notes} - {log.date}
                         <button onClick={() => handleDelete(log.id)}>Delete</button>
                         <Link to={`/plant-care-logs/${log.id}/edit`}>Edit</Link>
                     </li>

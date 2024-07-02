@@ -24,8 +24,8 @@ const PlantTypeList = () => {
             <ul>
                 {plantTypes.map(pt => (
                     <li key={pt.id}>
-                        {pt.name}
-                        <button onClick={() => handleDelete(pt.id)}>Delete</button>
+                        {pt.id} - {pt.name} -
+                        <button onClick={() => handleDelete(pt.id)}> Delete</button> -
                         <Link to={`/plant-types/${pt.id}/edit`}>Edit</Link>
                     </li>
                 ))}

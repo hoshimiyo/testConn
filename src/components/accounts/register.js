@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
 import { register } from '../../api/accounts';
 
-const Register = () => {
+const RegisterForm = () => {
     const [formData, setFormData] = useState({
         username: '',
-        email: '',
         password: '',
-        confirmPassword: ''
+        email: '',
     });
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(null);
 
     const handleChange = (e) => {
         setFormData({
             ...formData,
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.value,
         });
     };
 
@@ -20,21 +21,26 @@ const Register = () => {
         e.preventDefault();
         try {
             const result = await register(formData);
-            console.log('Registration successful', result);
+            if (result.isSuccessful) {
+                setSuccess('Registration successful!');
+            } else {
+                setError(result.errors);
+            }
         } catch (error) {
-            console.error('Registration failed', error);
+            setError('An error occurred during registration.');
         }
     };
 
     return (
         <form onSubmit={handleSubmit}>
-            <input name="username" placeholder="Username" onChange={handleChange} value={formData.username} />
-            <input name="email" type="email" placeholder="Email" onChange={handleChange} value={formData.email} />
-            <input name="password" type="password" placeholder="Password" onChange={handleChange} value={formData.password} />
-            <input name="confirmPassword" type="password" placeholder="Confirm Password" onChange={handleChange} value={formData.confirmPassword} />
+            <input type="text" name="username" value={formData.username} onChange={handleChange} placeholder="Username" required />
+            <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Password" required />
+            <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" required />
             <button type="submit">Register</button>
+            {error && <div className="error">{error}</div>}
+            {success && <div className="success">{success}</div>}
         </form>
     );
 };
 
-export default Register;
+export default RegisterForm;

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/plant-types';
+const API_URL = 'https://localhost:7126/api/plant-types';
 
 export const getAllPlantTypes = async (query) => {
     const response = await axios.get(API_URL, { params: query });

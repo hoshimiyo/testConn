@@ -5,7 +5,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 const PlantTypeForm = ({ isEditMode }) => {
     const [formData, setFormData] = useState({
         name: '',
-        description: '',
     });
 
     const navigate = useNavigate();
@@ -49,12 +48,6 @@ const PlantTypeForm = ({ isEditMode }) => {
                 placeholder="Name"
                 onChange={handleChange}
                 value={formData.name}
-            />
-            <input
-                name="description"
-                placeholder="Description"
-                onChange={handleChange}
-                value={formData.description}
             />
             <button type="submit">{isEditMode ? 'Update Plant Type' : 'Create Plant Type'}</button>
         </form>

@@ -1,36 +1,66 @@
-import React, { useEffect, useState } from 'react';
+// components/reviews/ReviewList.jsx
+
+import React, { useState, useEffect } from 'react';
 import { getAllReviews, deleteReview } from '../../api/review';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const ReviewList = () => {
     const [reviews, setReviews] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchReviews = async () => {
-            const data = await getAllReviews();
-            setReviews(data);
+            try {
+                const data = await getAllReviews();
+                setReviews(data);
+            } catch (error) {
+                setError(`Error fetching reviews: ${error.message}`);
+            } finally {
+                setLoading(false);
+            }
         };
         fetchReviews();
     }, []);
 
     const handleDelete = async (id) => {
-        await deleteReview(id);
-        setReviews(reviews.filter(review => review.id !== id));
+        try {
+            await deleteReview(id);
+            setReviews(reviews.filter((review) => review.id !== id));
+            alert('Review deleted successfully!');
+        } catch (error) {
+            console.error('Error deleting review:', error);
+            alert('Failed to delete review. Please try again.');
+        }
     };
+
+    if (loading) {
+        return <p>Loading...</p>;
+    }
+
+    if (error) {
+        return <p>{error}</p>;
+    }
 
     return (
         <div>
-            <h1>Reviews</h1>
+            <h2>Reviews</h2>
             <ul>
-                {reviews.map(review => (
+                {reviews.map((review) => (
                     <li key={review.id}>
-                        {review.content} - {review.rating}
+                        ID: {review.id}<br/>
+                        UserID: {review.userId}<br/>
+                        serviceID: {review.serviceId}<br/>
+                        Rating: {review.rating}<br/>
+                        Comment: {review.comment}<br/>
+                        Date: {review.dateTime}<br/>
+                        <button onClick={() => navigate(`/reviews/${review.id}/edit`)}>Edit</button>
                         <button onClick={() => handleDelete(review.id)}>Delete</button>
-                        <Link to={`/reviews/${review.id}/edit`}>Edit</Link>
                     </li>
                 ))}
             </ul>
-            <Link to="/reviews/new">Add Review</Link>
+            <Link to="/reviews/new">Create Review</Link>
         </div>
     );
 };

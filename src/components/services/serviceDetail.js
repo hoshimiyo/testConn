@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+/* import React, { useEffect, useState } from 'react';
 import { getServiceById } from '../../api/services';
 import { useParams } from 'react-router-dom';
 
@@ -29,3 +29,4 @@ const ServiceDetail = () => {
 };
 
 export default ServiceDetail;
+ */

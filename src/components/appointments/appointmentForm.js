@@ -4,10 +4,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 const AppointmentForm = ({ isEditMode }) => {
     const [formData, setFormData] = useState({
-        title: '',
-        date: '',
+        dateTime: '',
         userId: '',
-        expertId: ''
+        expertId: '',
+        status: '',
     });
 
     const navigate = useNavigate();
@@ -16,8 +16,12 @@ const AppointmentForm = ({ isEditMode }) => {
     useEffect(() => {
         if (isEditMode && id) {
             const fetchAppointment = async () => {
-                const data = await getAppointmentById(id);
-                setFormData(data);
+                try {
+                    const data = await getAppointmentById(id);
+                    setFormData(data);
+                } catch (error) {
+                    console.error('Error fetching appointment:', error);
+                }
             };
             fetchAppointment();
         }
@@ -47,13 +51,58 @@ const AppointmentForm = ({ isEditMode }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input name="title" placeholder="Title" onChange={handleChange} value={formData.title} />
-            <input name="date" type="date" onChange={handleChange} value={formData.date} />
-            <input name="userId" placeholder="User ID" onChange={handleChange} value={formData.userId} />
-            <input name="expertId" placeholder="Expert ID" onChange={handleChange} value={formData.expertId} />
-            <button type="submit">{isEditMode ? 'Update Appointment' : 'Create Appointment'}</button>
-        </form>
+        <div>
+            <h2>{isEditMode ? 'Edit Appointment' : 'Create Appointment'}</h2>
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <label htmlFor="dateTime">Date</label>
+                    <input
+                        id="dateTime"
+                        name="dateTime"
+                        type="datetime-local"
+                        placeholder="Date"
+                        onChange={handleChange}
+                        value={formData.dateTime}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="userId">User ID</label>
+                    <input
+                        id="userId"
+                        name="userId"
+                        placeholder="User ID"
+                        onChange={handleChange}
+                        value={formData.userId}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="expertId">Expert ID</label>
+                    <input
+                        id="expertId"
+                        name="expertId"
+                        placeholder="Expert ID"
+                        onChange={handleChange}
+                        value={formData.expertId}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="status">Status</label>
+                    <select
+                        id="status"
+                        name="status"
+                        value={formData.status}
+                        onChange={handleChange}
+                    >
+                        <option value="">Select a status</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="null">null</option>
+                        <option value="Cancelled">Cancelled</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                </div>
+                <button type="submit">{isEditMode ? 'Update Appointment' : 'Create Appointment'}</button>
+            </form>
+        </div>
     );
 };
 

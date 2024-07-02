@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/appointments';
+const API_URL = 'https://localhost:7126/api/appointments';
 
 export const getAllAppointments = async () => {
     const response = await axios.get(API_URL);
@@ -23,7 +23,7 @@ export const getAppointmentsByExpertId = async (expertId) => {
 };
 
 export const createAppointment = async (appointment) => {
-    const response = await axios.post(API_URL, appointment);
+    const response = await axios.post(API_URL,  appointment);
     return response.data;
 };
 

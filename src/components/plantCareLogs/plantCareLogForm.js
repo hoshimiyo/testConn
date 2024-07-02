@@ -4,8 +4,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 const PlantCareLogForm = ({ isEditMode }) => {
     const [formData, setFormData] = useState({
-        description: '',
-        date: '',
+        expertId: '',
+        appointmentId: '',
+        notes: '',
+        logDate: '',
     });
 
     const navigate = useNavigate();
@@ -44,18 +46,43 @@ const PlantCareLogForm = ({ isEditMode }) => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <input
-                name="description"
-                placeholder="Description"
-                onChange={handleChange}
-                value={formData.description}
-            />
-            <input
-                name="date"
-                placeholder="Date"
-                onChange={handleChange}
-                value={formData.date}
-            />
+            <div>
+                <label htmlFor="expertId">Expert ID</label>
+                <input
+                    id="expertId"
+                    name="expertId"
+                    onChange={handleChange}
+                    value={formData.expertId}
+                />
+            </div>
+            <div>
+                <label htmlFor="appointmentId">Appointment ID</label>
+                <input
+                    id="appointmentId"
+                    name="appointmentId"
+                    onChange={handleChange}
+                    value={formData.appointmentId}
+                />
+            </div>
+            <div>
+                <label htmlFor="notes">Notes</label>
+                <input
+                    id="notes"
+                    name="notes"
+                    onChange={handleChange}
+                    value={formData.notes}
+                />
+            </div>
+            <div>
+                <label htmlFor="logDate">Date</label>
+                <input
+                    id="logDate"
+                    name="logDate"
+                    type='datetime-local'
+                    onChange={handleChange}
+                    value={formData.logDate}
+                />
+            </div>
             <button type="submit">{isEditMode ? 'Update Plant Care Log' : 'Create Plant Care Log'}</button>
         </form>
     );
